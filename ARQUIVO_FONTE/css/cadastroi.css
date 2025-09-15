@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@font-face {
+    font-family: 'Titulo';
+    src: url(../fontes/Napoli.ttf) format('truetype');
+}
+body{
+    background: url(a.jpeg);
+    
+    font-family: 'poppins', sans-serif;
+}
+header{
+    display: flex;
+    justify-content: center;
+}
+.titulo1{ 
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 4vh;
+    font-family:'Titulo', sans-serif; 
+}
+a{
+    text-decoration: none;
+}
+
+main {
+    display: grid;
+    place-items: center; /* Centraliza horizontal e verticalmente */
+    height: 100vh; /* Garante que o main ocupe a altura total da tela */
+}
+form{
+
+    background-color: rgb(255, 255, 255);
+    padding: 24px;
+    border-radius:16px;
+    width: 400px;
+    border: solid 3px rgba(255, 255, 255, 0.1);
+    color: rgb(0, 0, 0);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6); /* Sombra padrão mais aparente */
+    transition: box-shadow 0.3s ease;
+ }
+
+ form:hover {
+     box-shadow: 0 0 40px rgba(0, 0, 0, 1); /* Sombra mais intensa ao passar o mouse */
+ }
+h5{
+    font-size: 13px;
+    text-align: center;
+}
+
+label {
+        font-size: 14px;
+        color: #000000;
+    }
+input {
+        background-color:#ddd ;
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 13px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+input:focus {
+        border-color: #0D1F26; /* Usei sua cor #0D1F26 */
+        box-shadow: 0 0 5px rgba(13, 31, 38, 0.5);
+    }
+
+input::placeholder {
+        color: #aaa;
+        font-size: 13px;
+    }
+button{
+    margin: 10px;
+    padding: 8px 25px;
+    font-size: 13px;
+    background-color: #c2792e; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+    button:hover {
+        background-color: #673c17; /* Cor mais clara ao passar o mouse */
+        transform: scale(1.1); /* Efeito de aumento */
+    }
+
+    button:active {
+        background-color: #332010; /* Cor quando pressionado */
+        transform: scale(1); /* Normaliza o botão */
+    }
+h6{
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+h4{
+    text-align: center;
+}
+footer {
+    width: 100%; /* Faz o footer ocupar a largura da tela */
+    position: absolute; /* Alinha ao final da tela */
+    bottom: 0; /* Cola no rodapé */
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    color: white;
+    padding: 10px 0;
+    font-size: 14px;
+}

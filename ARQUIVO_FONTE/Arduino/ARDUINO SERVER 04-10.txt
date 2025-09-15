@@ -1,0 +1,138 @@
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266HTTPClient.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+
+// Configurações da rede Wi-Fi
+const char* ssid = "Teste_TCC";
+const char* password = "12345678";
+
+// Configurações do servidor web
+ESP8266WebServer server(80);
+IPAddress ip(192, 168, 18, 5);
+IPAddress gateway(192, 168, 18, 1);
+IPAddress subnet(255, 255, 255, 0);
+
+// Configurações do botão
+const int buttonPin = 2;
+bool buttonPressed = false;
+bool buttonPressed2 = false;
+const int led = 13;
+
+// Configurações para enviar dados para o notebook
+const char* notebook_ip = "192.168.18.3";
+const int notebook_port = 5000;
+
+void sendDataToServer(const String& num_mesa) {
+  if (WiFi.status() == WL_CONNECTED) { // Verifica se há uma conexão Wi-Fi
+    WiFiClient client;
+    HTTPClient http;
+
+    // Corrigir URL para enviar parâmetros corretos
+    String url = "http://" + String(notebook_ip) + ":" + String(notebook_port) + "/api/receive_data";
+    url += "?solicitado=1&num_mesa=" + num_mesa; // Parâmetros corrigidos
+
+    Serial.println("URL enviada: " + url);
+
+    http.begin(client, url);
+    int httpResponseCode = http.GET(); // Enviar solicitação GET
+
+    if (httpResponseCode > 0) {
+      Serial.println("Dados enviados com sucesso! HTTP Code: " + String(httpResponseCode));
+    } else {
+      Serial.println("Erro ao enviar dados: " + String(httpResponseCode));
+    }
+    
+    http.end();
+  }
+}
+
+void handleRoot() {
+  String site = "<html>";
+  site += "<head><title>Sistema Gerencial ETEC - Mesa 2</title>";
+  site += "<meta http-equiv=\"refresh\" content=\"1\">";
+  site += "</head>";
+  site += "<body style=\"color: blue\">";
+  site += "<center><h1>Central de atendimento - Mesas</h1></center>";
+
+  if (buttonPressed) {
+    site += "<center><h2>Mesa 01 acionada!</h2></center>";
+  } else {
+    site += "<center><h2>Mesa 01 aguardando.</h2></center>";
+  }
+
+  if (buttonPressed2) {
+    site += "<center><h2>Mesa 02 acionada!</h2></center>";
+  } else {
+    site += "<center><h2>Mesa 02 aguardando.</h2></center>";
+  }
+
+  site += "</body>";
+  site += "</html>";
+
+  server.send(200, "text/html", site);
+  
+  buttonPressed2 = false;
+}
+
+void handleNotFound() {
+  digitalWrite(led, 1);
+  String message = "File Not Found\n\n";
+  message += "URI: ";
+  message += server.uri();
+  message += "\nMethod: ";
+  message += (server.method() == HTTP_GET) ? "GET" : "POST";
+  message += "\nArguments: ";
+  message += server.args();
+  message += "\n";
+  for (uint8_t i = 0; i < server.args(); i++) { message += " " + server.argName(i) + ": " + server.arg(i) + "\n"; }
+  server.send(404, "text/plain", message);
+  digitalWrite(led, 0);
+}
+
+void setup() {
+  pinMode(buttonPin, INPUT);
+  pinMode(led, OUTPUT);
+  digitalWrite(led, 0);
+  Serial.begin(115200);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("Conectado ao WiFi");
+
+  server.on("/", handleRoot);
+  server.on("/button2", []() {
+    buttonPressed2 = true;
+    server.send(200, "text/plain", "Button 2 state updated");
+  });
+
+  server.onNotFound(handleNotFound);
+
+  server.begin();
+  Serial.println("HTTP server started");
+}
+
+void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    buttonPressed = true;
+    sendDataToServer("1");
+    delay(1000); // Atraso para evitar múltiplos envios rápidos
+  } else {
+    buttonPressed = false;
+  }
+
+  if (buttonPressed2) {
+    sendDataToServer("2");
+    buttonPressed2 = false;
+  }
+
+  server.handleClient();
+}
+
+

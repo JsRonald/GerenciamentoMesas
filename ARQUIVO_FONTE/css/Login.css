@@ -1,0 +1,80 @@
+@font-face {
+    font-family: 'Titulo';
+    src: url(../fontes/RestaurantMenu.ttf) format('truetype');
+}
+form{
+    background-color: rgb(255, 255, 255);
+    padding: 24px;
+    border-radius:16px;
+    width: 320px;
+    border: solid 3px rgba(255, 255, 255, 0.1);
+    color: rgb(0, 0, 0);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6); /* Sombra padrão mais aparente */
+    transition: box-shadow 0.3s ease;
+ }
+ 
+
+ form:hover {
+     box-shadow: 0 0 40px rgba(0, 0, 0, 1); /* Sombra mais intensa ao passar o mouse */
+ }
+ button{
+    margin: 10px;
+    padding: 8px 25px;
+    font-size: 13px;
+    background-color: #c2792e; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+    button:hover {
+        background-color: #673c17; /* Cor mais clara ao passar o mouse */
+        transform: scale(1.1); /* Efeito de aumento */
+    }
+
+    button:active {
+        background-color: #332010; /* Cor quando pressionado */
+        transform: scale(1); /* Normaliza o botão */
+    }
+    label {
+        display: flex;
+        font-size: 14px;
+        color: #000000;
+    }
+    input::placeholder {
+        color: #aaa;
+        font-size: 13px;
+    }
+    input {
+        background-color:#ddd ;
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 13px;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+input:focus {
+        border-color: #0D1F26; /* Usei sua cor #0D1F26 */
+        box-shadow: 0 0 5px rgba(13, 31, 38, 0.5);
+    }
+
+
+footer {
+    width: 100%; /* Faz o footer ocupar a largura da tela */
+    position: absolute; /* Alinha ao final da tela */
+    bottom: 0; /* Cola no rodapé */
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    color: white;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+h4{
+    text-align: center;
+    font-size: 6vh;
+}
